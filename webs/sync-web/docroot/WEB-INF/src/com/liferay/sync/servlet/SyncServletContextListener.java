@@ -23,11 +23,9 @@ import com.liferay.portal.kernel.messaging.MessageBusUtil;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.SerialDestination;
 import com.liferay.portal.kernel.scheduler.SchedulerEngineHelperUtil;
-import com.liferay.portal.kernel.scheduler.SchedulerEntry;
-import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.StorageType;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
-import com.liferay.portal.kernel.scheduler.TriggerType;
+import com.liferay.portal.kernel.scheduler.TriggerFactoryUtil;
 import com.liferay.portal.kernel.util.BasePortalLifecycle;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.model.Company;
@@ -37,8 +35,8 @@ import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.model.DLSyncEvent;
 import com.liferay.portlet.documentlibrary.service.DLSyncEventLocalServiceUtil;
+import com.liferay.sync.messaging.DLSyncEventMessageListener;
 import com.liferay.sync.messaging.SyncDLFileVersionDiffMessageListener;
-import com.liferay.sync.messaging.SyncDLObjectMessageListener;
 import com.liferay.sync.service.SyncDLObjectLocalServiceUtil;
 import com.liferay.sync.service.SyncPreferencesLocalServiceUtil;
 import com.liferay.sync.util.PortletPropsKeys;
@@ -114,7 +112,7 @@ public class SyncServletContextListener
 	protected void doPortalDestroy() throws Exception {
 		MessageBusUtil.unregisterMessageListener(
 			DestinationNames.DOCUMENT_LIBRARY_SYNC_EVENT_PROCESSOR,
-			_syncDLObjectMessageListener);
+			_dlSyncEventMessageListener);
 
 		if (PortletPropsValues.SYNC_FILE_DIFF_CACHE_ENABLED) {
 			MessageBusUtil.unregisterMessageListener(
@@ -176,10 +174,10 @@ public class SyncServletContextListener
 			_log.error(e, e);
 		}
 
-		_syncDLObjectMessageListener = new SyncDLObjectMessageListener();
+		_dlSyncEventMessageListener = new DLSyncEventMessageListener();
 
 		registerMessageListener(
-			_syncDLObjectMessageListener,
+			_dlSyncEventMessageListener,
 			DestinationNames.DOCUMENT_LIBRARY_SYNC_EVENT_PROCESSOR);
 
 		if (PortletPropsValues.SYNC_FILE_DIFF_CACHE_ENABLED) {
@@ -213,17 +211,15 @@ public class SyncServletContextListener
 
 	protected void scheduleDLFileVersionDiffMessageListener() {
 		try {
-			SchedulerEntry schedulerEntry = new SchedulerEntryImpl();
-
-			schedulerEntry.setEventListenerClass(
-				SyncDLFileVersionDiffMessageListener.class.getName());
-			schedulerEntry.setTimeUnit(TimeUnit.HOUR);
-			schedulerEntry.setTriggerType(TriggerType.SIMPLE);
-			schedulerEntry.setTriggerValue(
-				PortletPropsValues.SYNC_FILE_DIFF_CACHE_DELETE_INTERVAL);
+			String eventListenerClassName =
+				SyncDLFileVersionDiffMessageListener.class.getName();
 
 			SchedulerEngineHelperUtil.schedule(
-				schedulerEntry.getTrigger(), StorageType.MEMORY_CLUSTERED, null,
+				TriggerFactoryUtil.createTrigger(
+					eventListenerClassName, eventListenerClassName,
+					PortletPropsValues.SYNC_FILE_DIFF_CACHE_DELETE_INTERVAL,
+					TimeUnit.HOUR),
+				StorageType.MEMORY_CLUSTERED, null,
 				SyncDLFileVersionDiffMessageListener.DESTINATION_NAME, null, 0);
 		}
 		catch (Exception e) {
@@ -234,7 +230,7 @@ public class SyncServletContextListener
 	private static Log _log = LogFactoryUtil.getLog(
 		SyncServletContextListener.class);
 
+	private MessageListener _dlSyncEventMessageListener;
 	private MessageListener _syncDLFileVersionDiffMessageListener;
-	private MessageListener _syncDLObjectMessageListener;
 
 }

@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ResourcedModel;
+import com.liferay.portal.model.ShardedModel;
 import com.liferay.portal.model.StagedGroupedModel;
 import com.liferay.portal.model.WorkflowedModel;
 import com.liferay.portal.service.ServiceContext;
@@ -45,7 +46,7 @@ import java.util.Date;
  */
 @ProviderType
 public interface KBArticleModel extends BaseModel<KBArticle>, ResourcedModel,
-	StagedGroupedModel, WorkflowedModel {
+	ShardedModel, StagedGroupedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -464,6 +465,7 @@ public interface KBArticleModel extends BaseModel<KBArticle>, ResourcedModel,
 	 *
 	 * @return the last publish date of this k b article
 	 */
+	@Override
 	public Date getLastPublishDate();
 
 	/**
@@ -471,6 +473,7 @@ public interface KBArticleModel extends BaseModel<KBArticle>, ResourcedModel,
 	 *
 	 * @param lastPublishDate the last publish date of this k b article
 	 */
+	@Override
 	public void setLastPublishDate(Date lastPublishDate);
 
 	/**

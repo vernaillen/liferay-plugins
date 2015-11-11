@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
+import com.liferay.portal.model.ShardedModel;
 import com.liferay.portal.model.StagedGroupedModel;
 import com.liferay.portal.service.ServiceContext;
 
@@ -42,7 +43,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface KBTemplateModel extends BaseModel<KBTemplate>,
+public interface KBTemplateModel extends BaseModel<KBTemplate>, ShardedModel,
 	StagedGroupedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -243,6 +244,7 @@ public interface KBTemplateModel extends BaseModel<KBTemplate>,
 	 *
 	 * @return the last publish date of this k b template
 	 */
+	@Override
 	public Date getLastPublishDate();
 
 	/**
@@ -250,6 +252,7 @@ public interface KBTemplateModel extends BaseModel<KBTemplate>,
 	 *
 	 * @param lastPublishDate the last publish date of this k b template
 	 */
+	@Override
 	public void setLastPublishDate(Date lastPublishDate);
 
 	@Override

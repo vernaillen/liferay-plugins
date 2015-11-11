@@ -55,6 +55,7 @@
 
 		<column name="repositoryId" type="long" />
 		<column name="parentFolderId" type="long" />
+		<column name="treePath" type="String" json-enabled="false" />
 		<column name="name" type="String" />
 		<column name="extension" type="String" />
 		<column name="mimeType" type="String" />
@@ -66,6 +67,7 @@
 		<column name="size" type="long" />
 		<column name="checksum" type="String" />
 		<column name="event" type="String" />
+		<column name="lastPermissionChangeDate" type="Date" json-enabled="false" />
 		<column name="lockExpirationDate" type="Date" />
 		<column name="lockUserId" type="long" />
 		<column name="lockUserName" type="String" />
@@ -101,11 +103,6 @@
 		<finder name="T_T" return-type="SyncDLObject" unique="true">
 			<finder-column name="type" />
 			<finder-column name="typePK" />
-		</finder>
-		<finder name="M_R_P" return-type="Collection">
-			<finder-column name="modifiedTime" comparator="&gt;" />
-			<finder-column name="repositoryId" />
-			<finder-column name="parentFolderId" />
 		</finder>
 		<finder name="M_R_NotE" return-type="Collection">
 			<finder-column name="modifiedTime" comparator="&gt;" />

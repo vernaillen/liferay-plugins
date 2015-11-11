@@ -31,6 +31,7 @@ page import="com.liferay.portal.kernel.search.Field" %><%@
 page import="com.liferay.portal.kernel.search.Indexer" %><%@
 page import="com.liferay.portal.kernel.search.SearchContext" %><%@
 page import="com.liferay.portal.kernel.search.Summary" %><%@
+page import="com.liferay.portal.kernel.search.filter.BooleanFilter" %><%@
 page import="com.liferay.portal.kernel.util.ParamUtil" %><%@
 page import="com.liferay.portal.model.BaseModel" %>
 
@@ -42,4 +43,5 @@ page import="java.util.regex.Pattern" %>
 page import="javax.portlet.PortletResponse" %><%@
 page import="javax.portlet.PortletURL" %>
 
+<%@ include file="/WEB-INF/jsp/util/asset_util.jspf" %>
 <%@ include file="/WEB-INF/jsp/util/portlet_keys.jspf" %>
