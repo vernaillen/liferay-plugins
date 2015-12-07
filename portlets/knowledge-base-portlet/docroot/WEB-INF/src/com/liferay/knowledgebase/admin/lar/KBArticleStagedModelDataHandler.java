@@ -243,8 +243,9 @@ public class KBArticleStagedModelDataHandler
 		KBArticle importedKBArticle = null;
 
 		if (portletDataContext.isDataStrategyMirror()) {
-			KBArticle existingKBArticle = KBArticleUtil.fetchByR_V(
-				resourcePrimaryKey, kbArticle.getVersion());
+			KBArticle existingKBArticle = KBArticleUtil.fetchByR_G_V(
+				resourcePrimaryKey, portletDataContext.getScopeGroupId(),
+				kbArticle.getVersion());
 
 			if (existingKBArticle == null) {
 				existingKBArticle = fetchStagedModelByUuidAndGroupId(
@@ -254,9 +255,9 @@ public class KBArticleStagedModelDataHandler
 			if (existingKBArticle == null) {
 				serviceContext.setUuid(kbArticle.getUuid());
 
-				existingKBArticle =
-					KBArticleLocalServiceUtil.fetchLatestKBArticle(
-						resourcePrimaryKey, WorkflowConstants.STATUS_ANY);
+				existingKBArticle = KBArticleUtil.fetchByR_G_L_First(
+					resourcePrimaryKey, portletDataContext.getScopeGroupId(),
+					true, null);
 
 				if (existingKBArticle == null) {
 					importedKBArticle = KBArticleLocalServiceUtil.addKBArticle(
@@ -355,9 +356,9 @@ public class KBArticleStagedModelDataHandler
 
 			portletDataContext.addZipEntry(path, fileEntry.getContentStream());
 
-			portletDataContext.addReferenceElement(
-				kbArticle, kbArticleElement, fileEntry,
-				PortletDataContext.REFERENCE_TYPE_WEAK, false);
+			StagedModelDataHandlerUtil.exportReferenceStagedModel(
+				portletDataContext, kbArticle, fileEntry,
+				PortletDataContext.REFERENCE_TYPE_WEAK);
 		}
 	}
 
