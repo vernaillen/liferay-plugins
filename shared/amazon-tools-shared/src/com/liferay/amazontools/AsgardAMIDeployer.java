@@ -21,7 +21,7 @@ import com.amazonaws.services.ec2.model.AssociateAddressRequest;
 import com.amazonaws.services.ec2.model.CreateTagsRequest;
 import com.amazonaws.services.ec2.model.Tag;
 
-import com.liferay.jsonwebserviceclient.JSONWebServiceClient;
+import com.liferay.petra.json.web.service.client.JSONWebServiceClient;
 
 import jargs.gnu.CmdLineParser;
 
@@ -180,7 +180,7 @@ public class AsgardAMIDeployer extends BaseAMITool {
 		boolean deployed = false;
 		JSONObject loadBalancerJSONObject = null;
 
-		for (int i = 1; i < 50; i++) {
+		for (int i = 1;; i++) {
 			String json = _jsonWebServiceClient.doGet(
 				"/" + availabilityZone + "/loadBalancer/show/" +
 					asgardClusterName + ".json",

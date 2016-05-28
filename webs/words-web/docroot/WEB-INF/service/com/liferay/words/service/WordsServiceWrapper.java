@@ -16,7 +16,7 @@ package com.liferay.words.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
  * Provides a wrapper for {@link WordsService}.
@@ -33,9 +33,10 @@ public class WordsServiceWrapper implements WordsService,
 	}
 
 	@Override
-	public java.util.List<java.lang.String> checkSpelling(java.lang.String text)
-		throws java.lang.Exception {
-		return _wordsService.checkSpelling(text);
+	public java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return _wordsService.invokeMethod(name, parameterTypes, arguments);
 	}
 
 	/**
@@ -49,32 +50,15 @@ public class WordsServiceWrapper implements WordsService,
 	}
 
 	@Override
-	public java.util.List<java.lang.String> getSuggestions(
-		java.lang.String word) throws java.lang.Exception {
-		return _wordsService.getSuggestions(word);
+	public java.util.List<java.lang.String> checkSpelling(java.lang.String text)
+		throws java.lang.Exception {
+		return _wordsService.checkSpelling(text);
 	}
 
 	@Override
-	public java.lang.Object invokeMethod(java.lang.String name,
-		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
-		throws java.lang.Throwable {
-		return _wordsService.invokeMethod(name, parameterTypes, arguments);
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
-	 */
-	@Deprecated
-	public WordsService getWrappedWordsService() {
-		return _wordsService;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
-	 */
-	@Deprecated
-	public void setWrappedWordsService(WordsService wordsService) {
-		_wordsService = wordsService;
+	public java.util.List<java.lang.String> getSuggestions(
+		java.lang.String word) throws java.lang.Exception {
+		return _wordsService.getSuggestions(word);
 	}
 
 	@Override

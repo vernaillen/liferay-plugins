@@ -16,7 +16,7 @@ package com.liferay.contacts.service;
 
 import aQute.bnd.annotation.ProviderType;
 
-import com.liferay.portal.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
  * Provides a wrapper for {@link EntryService}.
@@ -32,14 +32,12 @@ public class EntryServiceWrapper implements EntryService,
 		_entryService = entryService;
 	}
 
-	/**
-	* Returns the OSGi service identifier.
-	*
-	* @return the OSGi service identifier
-	*/
 	@Override
-	public java.lang.String getOSGiServiceIdentifier() {
-		return _entryService.getOSGiServiceIdentifier();
+	public com.liferay.portal.kernel.json.JSONArray searchUsersAndContacts(
+		long companyId, java.lang.String keywords, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _entryService.searchUsersAndContacts(companyId, keywords, start,
+			end);
 	}
 
 	@Override
@@ -49,28 +47,14 @@ public class EntryServiceWrapper implements EntryService,
 		return _entryService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* Returns the OSGi service identifier.
+	*
+	* @return the OSGi service identifier
+	*/
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray searchUsersAndContacts(
-		long companyId, java.lang.String keywords, int start, int end)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _entryService.searchUsersAndContacts(companyId, keywords, start,
-			end);
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
-	 */
-	@Deprecated
-	public EntryService getWrappedEntryService() {
-		return _entryService;
-	}
-
-	/**
-	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
-	 */
-	@Deprecated
-	public void setWrappedEntryService(EntryService entryService) {
-		_entryService = entryService;
+	public java.lang.String getOSGiServiceIdentifier() {
+		return _entryService.getOSGiServiceIdentifier();
 	}
 
 	@Override

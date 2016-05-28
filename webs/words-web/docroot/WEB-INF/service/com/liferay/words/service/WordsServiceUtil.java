@@ -17,8 +17,8 @@ package com.liferay.words.service;
 import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
+import com.liferay.portal.kernel.service.InvokableService;
 import com.liferay.portal.kernel.util.ReferenceRegistry;
-import com.liferay.portal.service.InvokableService;
 
 /**
  * Provides the remote service utility for Words. This utility wraps
@@ -41,9 +41,10 @@ public class WordsServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.words.service.impl.WordsServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static java.util.List<java.lang.String> checkSpelling(
-		java.lang.String text) throws java.lang.Exception {
-		return getService().checkSpelling(text);
+	public static java.lang.Object invokeMethod(java.lang.String name,
+		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
+		throws java.lang.Throwable {
+		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
 	/**
@@ -55,15 +56,14 @@ public class WordsServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.util.List<java.lang.String> checkSpelling(
+		java.lang.String text) throws java.lang.Exception {
+		return getService().checkSpelling(text);
+	}
+
 	public static java.util.List<java.lang.String> getSuggestions(
 		java.lang.String word) throws java.lang.Exception {
 		return getService().getSuggestions(word);
-	}
-
-	public static java.lang.Object invokeMethod(java.lang.String name,
-		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
-		throws java.lang.Throwable {
-		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
 	public static void clearService() {
@@ -87,13 +87,6 @@ public class WordsServiceUtil {
 		}
 
 		return _service;
-	}
-
-	/**
-	 * @deprecated As of 6.2.0
-	 */
-	@Deprecated
-	public void setService(WordsService service) {
 	}
 
 	private static WordsService _service;
